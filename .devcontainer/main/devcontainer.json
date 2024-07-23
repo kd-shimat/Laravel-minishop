@@ -45,7 +45,10 @@
 				"oderwat.indent-rainbow",
 				"mechatroner.rainbow-csv",
 				"xdebug.php-debug",
-				"EditorConfig.EditorConfig"
+				"EditorConfig.EditorConfig",
+				"onecentlin.laravel-blade",
+				"onecentlin.laravel5-snippets",
+				"onecentlin.laravel-extension-pack"
 			],
 			"settings": {
 				"files.exclude": {
