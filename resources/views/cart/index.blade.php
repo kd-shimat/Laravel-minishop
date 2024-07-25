@@ -16,6 +16,7 @@
         <th>価格</th>
         <th>注文数</th>
         <th>金額</th>
+        <th>削除</th>
     </tr>
     @php
         $total = 0;
@@ -28,6 +29,14 @@
             <td class="td_right">&yen; {{  number_format( $cart->item->price) }} </td>
             <td class="td_right"> {{ $cart->quantity }} </td>
             <td class="td_right">&yen; {{ number_format( $cart->item->price * $cart->quantity) }}</td>
+            <td>
+                <form method="POST" action="{{ route('cart.destroy', ['cart' => $cart->ident]) }}">
+                    @csrf
+                    @method('DELETE')
+                    <input type="hidden" name="ident" value="{{ $cart->ident }}">
+                    <input type="submit" value="削除">
+                </form>
+            </td>
         </tr>
         @php
             $total += $cart->item->price * $cart->quantity;
@@ -35,6 +44,7 @@
     @endforeach
     <tr>
         <th colspan="5">合計金額</th><td class="td_right">&yen; {{ number_format($total) }}</td>
+        <td>&nbsp;</td>
     </tr>
     </table>
     <br>

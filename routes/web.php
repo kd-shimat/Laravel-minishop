@@ -15,3 +15,6 @@ Route::get('cart', [CartController::class, 'index'])->name('cart.index');
 
 //Route::post('item',[ItemController::class,'index'])->name('item.index_post');
 Route::post('cart/store', [CartController::class, 'store'])->name('cart.store');
+
+Route::delete('cart/destroy/{cart}',[CartController::class, 'destroy'])->name('cart.destroy');
+
