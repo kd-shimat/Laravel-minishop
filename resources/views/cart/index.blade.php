@@ -63,6 +63,6 @@
     </tr>
     </table>
     <br>
-    <a href="{{ route('index') }}">ジャンル選択に戻る</a>&nbsp;&nbsp;<a href="">注文する</a>
+    <a href="{{ route('index') }}">ジャンル選択に戻る</a>&nbsp;&nbsp;<a href="{{ route('order.index') }}">注文する</a>
 </body>
 </html>
