@@ -27,13 +27,28 @@
             <td class="td_item_name"> {{ $cart->item->name }} </td>
             <td class="td_item_maker"> {{ $cart->item->maker }} </td>
             <td class="td_right">&yen; {{  number_format( $cart->item->price) }} </td>
-            <td class="td_right"> {{ $cart->quantity }} </td>
+            {{-- <td class="td_right"> {{ $cart->quantity }} </td> --}}
+            <td>
+                <form method="POST" action="{{ route('cart.update', ['cart' => $cart->ident]) }}">
+                    @csrf
+                    @method('PUT')
+                    <select name="quantity">
+                        @for ( $i=1;  $i<=10;  $i++ )
+                            <option value="{{ $i }}"
+                            @if($i == $cart->quantity)
+                                selected
+                            @endif
+                            > {{ $i }} </option>
+                        @endfor
+                        &nbsp;
+                        <input type="submit" value="変更">
+                </form>
+            </td>
             <td class="td_right">&yen; {{ number_format( $cart->item->price * $cart->quantity) }}</td>
             <td>
                 <form method="POST" action="{{ route('cart.destroy', ['cart' => $cart->ident]) }}">
                     @csrf
                     @method('DELETE')
-                    <input type="hidden" name="ident" value="{{ $cart->ident }}">
                     <input type="submit" value="削除">
                 </form>
             </td>

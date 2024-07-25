@@ -37,12 +37,13 @@ class CartController extends Controller
                 $new_quantity = 10;
             }
             $cart->quantity = $new_quantity;
+            $cart->update(['quantity' => $new_quantity]);
         } else {
             $cart = new Cart();
             $cart->ident = $request->ident;
             $cart->quantity = $request->quantity;
+            $cart->save();
         }
-        $cart->save();
         return redirect()->route('cart.index');
     }
 
@@ -67,7 +68,8 @@ class CartController extends Controller
      */
     public function update(Request $request, Cart $cart)
     {
-        //
+        $cart->update(['quantity' => $request->quantity]);
+        return redirect()->route('cart.index');
     }
 
     /**

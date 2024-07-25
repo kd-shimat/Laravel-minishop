@@ -12,6 +12,7 @@ class Cart extends Model
     protected $table = 'cart'; // ここで任意の名前を設定
     protected $primaryKey = 'ident';
     public $timestamps = false; // saveメソッドでデータを保存する際、created_atとupdated_atを自動的に更新しないようにする
+    protected $fillable = ['quantity'];
 
     // Itemモデルとのリレーションシップを定義する
     public function item()
