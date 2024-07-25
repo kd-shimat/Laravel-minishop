@@ -29,9 +29,19 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        $cart = new Cart();
-        $cart->ident = $request->ident;
-        $cart->quantity = $request->quantity;
+        // 既にカートに入っている商品かチェック
+        $cart = Cart::find($request->ident);
+        if ($cart) {
+            $new_quantity = $request->quantity + $cart->quantity;
+            if ($new_quantity > 10) {
+                $new_quantity = 10;
+            }
+            $cart->quantity = $new_quantity;
+        } else {
+            $cart = new Cart();
+            $cart->ident = $request->ident;
+            $cart->quantity = $request->quantity;
+        }
         $cart->save();
         return redirect()->route('cart.index');
     }
