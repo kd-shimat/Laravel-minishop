@@ -8,7 +8,7 @@
 </head>
 <body>
 <h3>商品詳細</h3>
-<form method="POST" action="/cart/add">
+<form method="POST" action="{{ route('cart.store')}}">
     @csrf
     <input type="hidden" name="ident" value="{{ $item->ident }}">
     <table>
