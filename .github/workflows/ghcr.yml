@@ -44,7 +44,7 @@ jobs:
             # latestタグも追加
             flavor: |
                 latest=${{ github.ref == 'refs/heads/main' }}
-                epoch=${{ steps.epoch.outputs.epoch }}
+                ${{ steps.epoch.outputs.epoch }}
         - name: Dockerイメージのビルド
           uses: docker/build-push-action@v4
           with:
