@@ -48,6 +48,8 @@ jobs:
             # タグとして先程取得したepochの値を設定
             tags: |
                 ${{ steps.epoch.outputs.epoch }}
+        - name: Docker Buildxのセットアップ
+          uses: docker/setup-buildx-action@v3
         - name: Dockerイメージのビルド
           uses: docker/build-push-action@v4
           with:
