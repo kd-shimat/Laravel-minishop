@@ -12,6 +12,7 @@ on:
         paths:
             - 'docker/web/**'
             - 'docker/app/**'
+    workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
