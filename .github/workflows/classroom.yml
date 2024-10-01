@@ -10,8 +10,10 @@ name: Autograding Tests
       - "config/**"
   workflow_dispatch:
 
-# ダミーの環境変数定義(赤波線対策)
 env:
+  # test-NNNNNN: ランダムな数字6桁を付けて重複を回避させる
+  project_name: test-${{ github.run_id }}
+  LANG: ja_JP.UTF-8
 
 permissions:
   checks: write
@@ -22,36 +24,61 @@ jobs:
     runs-on: ubuntu-latest
     if: github.actor != 'github-classroom[bot]'
     steps:
+    # - name: echo project_name
+    #   run: |
+    #     echo ==============================
+    #     echo ${{ env.project_name }}
+    #     echo ==============================
+
     - name: Checkout code
       uses: actions/checkout@v4
-    - name: dbcheck
+
+    - name: コンテナの起動
+      run: docker compose -p ${{ env.project_name }} -f compose.yml -f compose_test.yml up -d
+    - name: 結果画像の削除
+      run: |
+        rm -vf results/*.png
+    - name: データベースへの接続テスト
       id: dbcheck
       uses: classroom-resources/autograding-command-grader@v1
       with:
         test-name: dbcheck
-        setup-command: ''
-        command: make test_in_docker FILE=tests/test_connect.py
+        setup-command: 'docker compose ps'
+        command: 'docker compose  -p ${{ env.project_name }} exec app make test FILE=tests/test_db_connect.py'
         max-score: 1
         timeout: 2
-    - name: modify permission
-      if: ${{ env.GITHUB_ACTIONS && env.GITHUB_ACTIONS == "true" }}
-      run: |
-        chmod -v 777 public
-
-    - name: webaccess
-      id: webaccess
+    - name: トップページの表示テスト
+      id: toppage
       uses: classroom-resources/autograding-command-grader@v1
       with:
-        test-name: webaccess
-        setup-command: ''
-        command: make test_in_docker FILE=tests/test_webaccess.py
+        test-name: toppage
+        setup-command: 'docker compose ps'
+        command: 'docker compose  -p ${{ env.project_name }} exec app make test FILE=tests/test_minishop_toppage.py'
         max-score: 1
         timeout: 2
+    # - name: 結果画像の場所確認
+    #   if: always()
+    #   run: |
+    #     find `pwd` -type f | sort
 
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
       env:
         DBCHECK_RESULTS: "${{steps.dbcheck.outputs.result}}"
-        WEBACCESS_RESULTS: "${{steps.webaccess.outputs.result}}"
+        TOPPAGE_RESULTS: "${{steps.toppage.outputs.result}}"
       with:
-        runners: dbcheck, webaccess
+        runners: dbcheck,toppage
+
+    - name: 画像ファイルのアーティファクト化
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: result-images
+        path: |
+          /results/*.png
+    - name: コンテナの停止
+      if: always()
+      run: docker compose  -p ${{ env.project_name }} down --rmi=local -v --timeout=3
+    # - name: check files
+    #   if: always()
+    #   run: pwd; ls -l results
