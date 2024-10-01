@@ -44,7 +44,9 @@ jobs:
       run: |
         rm -vf results/*.png
     - name: PHPの必要モジュールのセットアップ
-      run: docker compose -p ${{ env.project_name }} exec app composer install
+      run: |
+        mkdir -pv vendor
+        docker compose -p ${{ env.project_name }} exec app composer install
 
     - name: データベースへの接続テスト
       id: dbcheck
