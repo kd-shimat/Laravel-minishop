@@ -8,6 +8,7 @@ name: Autograding Tests
       - "routes/**"
       - "tests/**"
       - "config/**"
+  workflow_dispatch:
 
 # ダミーの環境変数定義(赤波線対策)
 env:
