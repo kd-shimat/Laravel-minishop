@@ -78,13 +78,16 @@ jobs:
       with:
         runners: dbcheck,toppage
 
+    - name: 結果画像のアーカイブ作成
+      run: |
+        tar cvzf /tmp/results.tar.gz results/*.png
     - name: 画像ファイルのアーティファクト化
       if: always()
       uses: actions/upload-artifact@v4
       with:
         name: result-images
         path: |
-          /results/*.png
+          /tmp/results.tar.gz
     - name: コンテナの停止
       if: always()
       run: docker compose  -p ${{ env.project_name }} down --rmi=local -v --timeout=3
