@@ -45,7 +45,7 @@ jobs:
         rm -vf results/*.png
     - name: PHPの必要モジュールのセットアップ
       run: |
-        mkdir -pv vendor
+        docker compose -p ${{ env.project_name }} exec app mkdir -pv vendor
         docker compose -p ${{ env.project_name }} exec app composer install
 
     - name: データベースへの接続テスト
