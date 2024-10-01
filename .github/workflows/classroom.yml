@@ -80,7 +80,10 @@ jobs:
 
     - name: 結果画像の一覧作成
       run: |
-        echo ARTIFACTS=$(find results -type f -name "*.png") >> $GITHUB_ENV
+        echo "===artifacts==="
+        docker compose -p ${{ env.project_name }} exec app find results -name "*.png"
+        echo "==="
+        echo ARTIFACTS=$(docker compose -p ${{ env.project_name }} exec app find results -name "*.png") >> $GITHUB_ENV
     - name: 画像ファイルのアーティファクト化
       if: always()
       uses: actions/upload-artifact@v4
