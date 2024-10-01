@@ -14,10 +14,10 @@ REMOTE_URL = "http://selenium:4444/wd/hub"
 class TestCase(unittest.TestCase):
     def setUp(self):
         # カレントディレクトリを取得して表示
-        import os
-        print(os.getcwd())
-        # カレントディレクトリにあるpublicディレクトリのアクセス権を確認する
-        print(os.system("ls -ld public"))
+        # import os
+        # print(os.getcwd())
+        # # カレントディレクトリにあるpublicディレクトリのアクセス権を確認する
+        # print(os.system("ls -ld public"))
 
         # selenium gridのサーバーに接続
         self.driver = webdriver.Remote(REMOTE_URL, options=webdriver.ChromeOptions())
