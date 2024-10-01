@@ -8,6 +8,7 @@ name: Autograding Tests
       - "routes/**"
       - "tests/**"
       - "config/**"
+  workflow_dispatch:
 
 env:
   # test-NNNNNN: ランダムな数字6桁を付けて重複を回避させる
