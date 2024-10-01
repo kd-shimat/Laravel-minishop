@@ -3,12 +3,19 @@ all: testall
 LOCKFILE=/tmp/up.run
 PULL=missing
 
-testall: python-init
+vendor: composer.json
+	composer install
+	touch vendor
+
+resetenv: vendor
+	php artisan migrate:fresh --seed
+
+testall: python-init resetenv
 	for i in tests/*.py; do \
 	  pipenv run python $$i; \
 	done
 
-test: python-init
+test: python-init resetenv
 	pipenv run python $(FILE)
 
 up: $(LOCKFILE)
