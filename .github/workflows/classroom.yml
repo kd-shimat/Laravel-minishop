@@ -43,6 +43,9 @@ jobs:
     - name: 結果画像の削除
       run: |
         rm -vf results/*.png
+    - name: PHPの必要モジュールのセットアップ
+      run: docker compose -p ${{ env.project_name }} exec app composer install
+
     - name: データベースへの接続テスト
       id: dbcheck
       uses: classroom-resources/autograding-command-grader@v1
@@ -57,7 +60,6 @@ jobs:
       uses: classroom-resources/autograding-command-grader@v1
       with:
         test-name: toppage
-        setup-command: 'touch composer.json'
         command: 'docker compose -p ${{ env.project_name }} exec app make test FILE=tests/test_minishop_toppage.py'
         max-score: 1
         timeout: 2
