@@ -1,7 +1,8 @@
 services:
   web:
-    #image: nginx:alpine
-    build: docker/web
+    image: ghcr.io/kd-it/laravel-minishop/web:1727734669
+
+    #build: docker/web
     volumes:
       - .:/app:cached
     env_file:
@@ -11,8 +12,8 @@ services:
       - db
 
   app:
-    #image: php:fpm-alpine
-    build: docker/app
+    image: ghcr.io/kd-it/laravel-minishop/app:1727734667
+    #build: docker/app
     env_file:
       - env.txt
     volumes:
