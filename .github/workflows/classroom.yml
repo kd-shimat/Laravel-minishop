@@ -37,8 +37,9 @@ jobs:
       run: |
         # GH SecretのDOTENV変数に.envがまるのまま入っているのでリダイレクトで作成する
         echo "${{ secrets.DOTENV }}" > .env
+        nl .env
     - name: コンテナの起動
-      run: docker compose -p ${{ env.project_name }} -f compose.yml -f compose_test.yml up -d
+      run: docker compose -p ${{ env.project_name }} -f compose.yml -f compose_test.yml up -d --quiet-pull
     - name: 結果画像の削除
       run: |
         rm -vf results/*.png
@@ -56,8 +57,8 @@ jobs:
       uses: classroom-resources/autograding-command-grader@v1
       with:
         test-name: toppage
-        setup-command: 'docker compose ps'
-        command: 'docker compose  -p ${{ env.project_name }} exec app make test FILE=tests/test_minishop_toppage.py'
+        setup-command: 'docker compose -p ${{ env.project_name }} ps'
+        command: 'docker compose -p ${{ env.project_name }} exec app make test FILE=tests/test_minishop_toppage.py'
         max-score: 1
         timeout: 2
     # - name: 結果画像の場所確認
