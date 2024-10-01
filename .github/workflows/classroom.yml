@@ -33,6 +33,10 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: SECRETから.envファイルを作成
+      run: |
+        # GH SecretのDOTENV変数に.envがまるのまま入っているのでリダイレクトで作成する
+        echo "${{ secrets.DOTENV }}" > .env
     - name: コンテナの起動
       run: docker compose -p ${{ env.project_name }} -f compose.yml -f compose_test.yml up -d
     - name: 結果画像の削除
