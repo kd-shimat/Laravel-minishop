@@ -42,12 +42,15 @@ class TestCase(unittest.TestCase):
         genre = self.driver.find_elements(By.NAME, "genre")
         genre[2].click()
         self.driver.get_screenshot_as_file(f"results/{self.timestamp}-01-select-music.png")
+
+        # 送信ボタンをクリック
         self.driver.find_element(By.XPATH, "/html/body/form/input[2]").click()
         self.driver.get_screenshot_as_file(f"results/{self.timestamp}-02-list-musics.png")
 
         # ジャンル別商品一覧に遷移しているはずなので、最初のh3タグに「ジャンル別商品一覧」という文字列があるかどうかを確認
         logger.info(self.driver.find_element(By.XPATH, "/html/body/h3").text)
         self.assertIn("ジャンル別商品一覧", self.driver.find_element(By.XPATH, "/html/body/h3").text)
+        # データもきちんと入っているかの確認
         # /html/body/table/tbody/tr[3]/td[3]/ = Eric Clapton
         logger.info(self.driver.find_element(By.XPATH, "/html/body/table/tbody/tr[3]/td[3]").text)
         self.assertIn("Eric Clapton", self.driver.find_element(By.XPATH, "/html/body/table/tbody/tr[3]/td[3]").text)
