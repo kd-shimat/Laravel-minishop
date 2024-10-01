@@ -1,7 +1,17 @@
 name: Autograding Tests
 'on':
-- push
-- repository_dispatch
+  push:
+    paths:
+      - "app/**"
+      - "public/**"
+      - "resources/**"
+      - "routes/**"
+      - "tests/**"
+      - "config/**"
+
+# ダミーの環境変数定義(赤波線対策)
+env:
+
 permissions:
   checks: write
   actions: read
