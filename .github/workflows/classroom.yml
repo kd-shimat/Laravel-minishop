@@ -78,16 +78,16 @@ jobs:
       with:
         runners: dbcheck,toppage
 
-    - name: 結果画像のアーカイブ作成
+    - name: 結果画像の一覧作成
       run: |
-        tar cvzf /tmp/results.tar.gz results/*.png
+        echo ARTIFACTS=$(find results -type f -name "*.png") >> $GITHUB_ENV
     - name: 画像ファイルのアーティファクト化
       if: always()
       uses: actions/upload-artifact@v4
       with:
         name: result-images
         path: |
-          /tmp/results.tar.gz
+          ${{ env.ARTIFACTS }}
     - name: コンテナの停止
       if: always()
       run: docker compose  -p ${{ env.project_name }} down --rmi=local -v --timeout=3
