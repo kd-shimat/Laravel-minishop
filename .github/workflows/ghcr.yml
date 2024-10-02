@@ -19,7 +19,8 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  epoch: $(date +%s)
+  # epoch秒を取得
+  epoch: ${{ github.event.head_commit.timestamp }}
 
 jobs:
     build:
