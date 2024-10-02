@@ -9,9 +9,11 @@ vendor: composer.json
 
 resetenv: vendor
 	php artisan migrate:fresh --seed
+	php artisan key:generate
 
-testall: python-init resetenv
+testall: python-init
 	for i in tests/*.py; do \
+	  make resetenv; \
 	  pipenv run python $$i; \
 	done
 
