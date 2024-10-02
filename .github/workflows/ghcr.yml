@@ -29,8 +29,8 @@ jobs:
         packages: write
       strategy:
         matrix:
-          # service: [web, app]
-          service: [web]
+          service: [web, app]
+
       steps:
       - name: pushするかの確認
         run: |
