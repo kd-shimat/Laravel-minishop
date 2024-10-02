@@ -29,8 +29,16 @@ jobs:
         packages: write
       strategy:
         matrix:
-          service: [web, app]
+          # service: [web, app]
+          service: [web]
       steps:
+      - name: pushするかの確認
+        run: |
+          if [ -z "${ACT}" ]; then
+            echo "do_push=true" >> $GITHUB_ENV
+          else
+            echo "do_push=false" >> $GITHUB_ENV
+          fi
       - name: ソース取得
         uses: actions/checkout@v4
       - name: コンテナレジストリへのログイン        # actではログインはしなくていいです
@@ -58,7 +66,7 @@ jobs:
           context: docker/${{ matrix.service }}
           #push: true
           # actの時はpushはしない(false)
-          push: ${{ if: env.ACT, 'false', 'true'  }}
+          push: ${{ env.do_push }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/amd64,linux/arm64
