@@ -27,8 +27,6 @@ jobs:
     runs-on: ubuntu-latest
     if: github.actor != 'github-classroom[bot]'
     steps:
-    - name: タイムゾーンを日本に変更
-      run: sudo timedatectl set-timezone Asia/Tokyo
 
     - name: Checkout code
       uses: actions/checkout@v4
