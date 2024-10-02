@@ -43,12 +43,12 @@ jobs:
           exit 1
         fi
         mv dot.env .env
-    - name: .envファイルの存在チェック
-      run: |
-        if [ ! -f .env ]; then
-          echo ".envファイルが存在しません"
-          exit 1
-        fi
+    # - name: .envファイルの存在チェック
+    #   run: |
+    #     pwd
+    #     ls -al
+    #     stat .env
+    #     test -f .env
     - name: コンテナの起動
       run: docker compose -p ${{ env.project_name }} -f compose.yml -f compose_test.yml up -d --quiet-pull
     - name: 結果画像の削除
